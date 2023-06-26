@@ -15,6 +15,8 @@ public class TestDataInit {
 
     /**
      * 확인용 초기 데이터 추가
+     * @PostConstruct 를 사용할 경우 AOP 같은 부분이 아직 다 처리되지 않은
+     * 시점에 호출될 수 있기 때문에, 간혹 문제가 발생할 수 있다
      */
     @EventListener(ApplicationReadyEvent.class)
     public void initData() {
