@@ -16,7 +16,7 @@ public class MemberRepository {
         em.persist(member);
     }
 
-    public Member fiindOne(Long id){
+    public Member findOne(Long id){
         return em.find(Member.class, id);
     }
 
