@@ -10,6 +10,7 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import jpabook.jpashop.api.OrderSimpleApiController;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 import lombok.RequiredArgsConstructor;
@@ -88,6 +89,24 @@ public class OrderRepository {
         return query.getResultList();
     }
 
+    public List<Order> findAllWithMemberDelivery() {
+        return em.createQuery(
+            "select o from Order o" +
+                " join fetch o.member m" +
+                " join fetch o.delivery d", Order.class
+        ).getResultList();
+    }
+
+    public List<OrderSimpleQueryDto> findOrderDtos() {
+        return em.createQuery(
+                "select new jpabook.jpashop.repository.OrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address)" +
+                " from Order o" +
+                    " join o.member m" +
+                    " join o.delivery d", OrderSimpleQueryDto.class)
+            .getResultList();
+    }
+    }
+
 //    public List<Order> findAll(OrderSearch orderSearch) {
 //        String jpql = "select o from Order o join o.member m";
 //        return em.createQuery(jpql, Order.class).setParameter("status", orderSearch.getOrderStatus())
@@ -95,4 +114,4 @@ public class OrderRepository {
 //            .setMaxResults(1000)
 //            .getResultList();
 //    }
-}
+//}
